@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Spoken Math TEST</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootswatch CSS -->
+  <link rel="stylesheet" href="./bootswatch_superhero.min.css">
+</head>
+
+<body>
+  <div class="row">
+    <!-- <div class="col-md-4 card bg-warning text-white text-center">
+      <h5><a href="PreK.html">Pre-School</a> | <a href="Kinder.html">Kindergarten</a></h5>
+      <h5><a href="1st.html">1st Grade</a> | <a href="2nd.html">2nd Grade</a></h5>
+      <h5><a href="3rd.html">3rd Grade</a></h5>
+    </div> -->
+    <div class="card col-md-12 bg-success text-center text-white">
+      <h1>Spoken Math TEST</h1>
+      <h3>MULTIPLICATION TABLES</h3>
+    </div>
+    <!-- <div class="col-md-4 card bg-warning text-white text-center">
+      <h5>Created by: <a href="https://www.linkedin.com/in/jnid/">Joe Nidever</a></h5>
+      <h5>Powered by: <a href="https://www.talater.com/annyang/">Annyang!</a></h5>
+      <h5>Sight Word Lists: <a href="https://sightwords.com/sight-words/dolch/#lists">Dolch</a></h5>
+    </div> -->
+  </div>
+
+  <div class="row my-2 text-center text-white">
+    <div class="card bg-primary col-md-12">
+      <h3>Speak the Correct Answer!</h3>
+      <h2 class="mb-3" style="font-size: 1000%" id="wordplace"></h2>
+      <button id="skip" style="font-size: 200%" class="mt-2 btn-lg bg-danger text-white">Skip Problem</button>
+
+    </div>
+
+  </div>
+  <div class="row my-2 text-center text-white">
+    <h3 class="card bg-secondary col-md-12">Track your wins here:
+      <span style="font-size:300%" id="winsnum">0</span>
+      <span id="wins"></span>
+    </h3>
+  </div>
+  <div class="row my-2 text-center text-white">
+    <h4 class="card bg-dark col-md-12">Problems I need help with...
+      <span id="skipped"><img style="width:3%" src=./skip.png> - </span>
+    </h4>
+  </div>
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <script src="./annyang.js"></script>
+
+  <script>
+  
+  var numberToWords = function(s){
+		
+		var th = ['','thousand','million', 'billion','trillion'];
+		var dg = ['zero','one','two','three','four', 'five','six','seven','eight','nine'];
+		var tn = ['ten','eleven','twelve','thirteen', 'fourteen','fifteen','sixteen', 'seventeen','eighteen','nineteen'];
+		var tw = ['twenty','thirty','forty','fifty', 'sixty','seventy','eighty','ninety']; 
+		
+		s = (s||'').toString(); s = s.replace(/[\, ]/g,''); if (s != parseFloat(s)) return 'not a number'; var x = s.indexOf('.'); if (x == -1) x = s.length; if (x > 15) return 'too big'; var n = s.split(''); var str = ''; var sk = 0; for (var i=0; i < x; i++) {if ((x-i)%3==2) {if (n[i] == '1') {str += tn[Number(n[i+1])] + ' '; i++; sk=1;} else if (n[i]!=0) {str += tw[n[i]-2] + ' ';sk=1;}} else if (n[i]!=0) {str += dg[n[i]] +' '; if ((x-i)%3==0) str += 'hundred ';sk=1;} if ((x-i)%3==1) {if (sk) str += th[(x-i-1)/3] + ' ';sk=0;}} if (x != s.length) {var y = s.length; str += 'point '; for (var i=x+1; i<y; i++) str += dg[n[i]] +' ';} return str.replace(/\s+/g,' ');
+	
+	}
+
+	// wordarr=[];
+  
+  // function generateloop(){
+  //   for (let i = 0; i < matharrans.length; i++) {
+  //     const element = matharrans[i];
+  //     wordarr.push(numberToWords(element))
+  //   }
+  // }
+
+  var winsound = new Audio("./win.mp3");
+    skippedarr = []
+
+    matharrdis = ["1x1", "1x2", "1x3", "1x4", "1x5", "1x6", "1x7", "1x8", "1x9", "1x10", "2x1", "2x2", "2x3", "2x4", "2x5", "2x6", "2x7", "2x8", "2x9", "2x10", "3x1", "3x2", "3x3", "3x4", "3x5", "3x6", "3x7", "3x8", "3x9", "3x10", "4x1", "4x2", "4x3", "4x4", "4x5", "4x6", "4x7", "4x8", "4x9", "4x10", "5x1", "5x2", "5x3", "5x4", "5x5", "5x6", "5x7", "5x8", "5x9", "5x10", "6x1", "6x2", "6x3", "6x4", "6x5", "6x6", "6x7", "6x8", "6x9", "6x10", "7x1", "7x2", "7x3", "7x4", "7x5", "7x6", "7x7", "7x8", "7x9", "7x10", "8x1", "8x2", "8x3", "8x4", "8x5", "8x6", "8x7", "8x8", "8x9", "8x10", "9x1", "9x2", "9x3", "9x4", "9x5", "9x6", "9x7", "9x8", "9x9", "9x10", "10x1", "10x2", "10x3", "10x4", "10x5", "10x6", "10x7", "10x8", "10x9", "10x10"]
+    matharrans = ["one ", "two ", "three ", "four ", "five ", "six ", "seven ", "eight ", "nine ", "ten ", "two ", "four ", "six ", "eight ", "ten ", "twelve ", "fourteen ", "sixteen ", "eighteen ", "twenty ", "three ", "six ", "nine ", "twelve ", "fifteen ", "eighteen ", "twenty one ", "twenty four ", "twenty seven ", "thirty ", "four ", "eight ", "twelve ", "sixteen ", "twenty ", "twenty four ", "twenty eight ", "thirty two ", "thirty six ", "forty ", "five ", "ten ", "fifteen ", "twenty ", "twenty five ", "thirty ", "thirty five ", "forty ", "forty five ", "fifty ", "six ", "twelve ", "eighteen ", "twenty four ", "thirty ", "thirty six ", "forty two ", "forty eight ", "fifty four ", "sixty ", "seven ", "fourteen ", "twenty one ", "twenty eight ", "thirty five ", "forty two ", "forty nine ", "fifty six ", "sixty three ", "seventy ", "eight ", "sixteen ", "twenty four ", "thirty two ", "forty ", "forty eight ", "fifty six ", "sixty four ", "seventy two ", "eighty ", "nine ", "eighteen ", "twenty seven ", "thirty six ", "forty five ", "fifty four ", "sixty three ", "seventy two ", "eighty one ", "ninety ", "ten ", "twenty ", "thirty ", "forty ", "fifty ", "sixty ", "seventy ", "eighty ", "ninety ", "one hundred "];
+    // matharrans = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 6, 12, 18, 24, 30, 36, 42, 48, 54, 60, 7, 14, 21, 28, 35, 42, 49, 56, 63, 70, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 9, 18, 27, 36, 45, 54, 63, 72, 81, 90, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+    var randompick;
+    var chosendis;
+    var chosenans;
+    var winsnum=0
+
+    //select random word and assign it to the global var chosenword
+    function selectmath() {
+      randompick = Math.floor(Math.random() * matharrdis.length);
+      chosendis = matharrdis[randompick]
+      chosenans = matharrans[randompick]
+      console.log("chosen display "+ chosendis+".  Chosen answer "+ chosenans);
+      $(document).ready(function () {
+        $('#wordplace').html(chosendis);
+      });
+      var commands = {}
+      commands[chosenans] = function () {
+        winsnum++
+        addwin()
+        winsound.play()
+        selectmath()
+      }
+      console.log(commands)
+      startAnnyang(commands);
+              }
+
+    function addwin() {
+      $("#wins").append(`<span style="font-size: 200%">${chosendis}</span><img src="./win.png" class="mx-1 my-1"style="width:5%"></img>`);
+      $("#winsnum").html(`<span style="width:200%">${winsnum}</span>`)
+    }
+
+    $("#skip").click(skipmath)
+
+    function skipmath() {
+        $("#skipped").append(`<span style="font-size: 125%">${chosendis} - </span>`);
+        skippedarr.push(chosendis)
+        selectmath()
+    }
+
+    function startAnnyang(commands) {
+      annyang.addCommands(commands);
+
+      // Start listening. You can call this here, or attach this call to an event, button, etc.
+      // annyang.start({ autoRestart: true, continuous: true });
+      annyang.start();
+      annyang.isListening()
+    }
+    selectmath();
+
+
+  </script>
+</body>
+
+</html>
